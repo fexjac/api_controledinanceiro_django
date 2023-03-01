@@ -3,7 +3,7 @@ from .models import Transacao
 from django.contrib.auth.models import User
 
 class TransacaoSerializer(serializers.ModelSerializer):
-    tipo = serializers.CharField(source='get_tipo_display')
+    tipo = serializers.ChoiceField(choices=[('entrada', 'Entrada'), ('saida', 'Saída')])
     usuario = serializers.PrimaryKeyRelatedField(many=True, queryset=User.objects.all())
     recorrente = serializers.BooleanField()
     repeticoes = serializers.IntegerField(allow_null=True)
