@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Transacao
+from .models import Usuario
 from django.contrib.auth.models import User
 
 class TransacaoSerializer(serializers.ModelSerializer):
@@ -14,5 +15,5 @@ class TransacaoSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Usuario
         fields = ('id', 'username', 'email')

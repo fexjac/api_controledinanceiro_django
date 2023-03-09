@@ -11,7 +11,7 @@ class Transacao(models.Model):
     recorrente = models.BooleanField(default=False)
     repeticoes = models.IntegerField(null=True, blank=True)
 
-class User(models.Model):
+class Usuario(models.Model):
     username = models.CharField(max_length=100)
     email = models.EmailField()
 
