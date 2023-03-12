@@ -11,6 +11,21 @@ class TransacaoDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Transacao.objects.all()
     serializer_class = TransacaoSerializer
 
+    def perform_create(self, serializer):
+        repeticoes = serializer.validated_data.get('repeticoes')
+        print(repeticoes)
+        recorrente = serializer.validated_data.get('recorrente')
+        print(recorrente)
+        if recorrente is True and repeticoes > 1:
+            transacao = serializer.save()
+            for i in range(repeticoes - 1):
+                transacao.pk = None
+                transacao.data = transacao.data + datetime.timedelta(days=30)
+                transacao.save()
+        else:
+            print('Não processou as repetições!')
+            serializer.save()
+
 class UsuarioList(generics.ListCreateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UserSerializer
@@ -22,14 +37,3 @@ class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Usuario.objects.filter(id=self.kwargs.get('pk'))
 
-    def perform_create(self, serializer):
-        repeticoes = serializer.validated_data.get('repeticoes')
-        recorrente = serializer.validated_data.get('recorrente')
-        if recorrente and repeticoes is not None and repeticoes > 1:
-            transacao = serializer.save()
-            for i in range(repeticoes - 1):
-                transacao.pk = None
-                transacao.data = transacao.data + datetime.timedelta(days=7)
-                transacao.save()
-        else:
-            serializer.save()
