@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import TransacaoSerializer, UserSerializer, ContaSerializer
-from .models import Transacao, Usuario, Conta
+from .serializers import TransacaoSerializer, UserSerializer, ContaSerializer, PagamentoSerializer
+from .models import Transacao, Usuario, Conta, Pagamento
 import datetime
 class TransacaoList(generics.ListCreateAPIView):
     queryset = Transacao.objects.all()
@@ -45,4 +45,12 @@ class ContaList(generics.ListCreateAPIView):
 class ContaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Conta.objects.all()
     serializer_class = ContaSerializer
+
+class PagamentoList(generics.ListCreateAPIView):
+    queryset = Pagamento.objects.all()
+    serializer_class = PagamentoSerializer
+
+class PagamentoDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Pagamento.objects.all()
+    serializer_class = PagamentoSerializer
 

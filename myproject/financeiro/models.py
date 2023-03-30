@@ -23,3 +23,9 @@ class Conta(models.Model):
     numero = models.CharField(max_length=10)
     saldo_banco = models.DecimalField(max_digits=10, decimal_places=2)
     titular = models.ManyToManyField(Usuario)
+
+class Pagamento(models.Model):
+    data_pagamento = models.DateField()
+    conta_usada = models.ManyToManyField(Conta)
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    transacao_origem = models.ManyToManyField(Transacao)
