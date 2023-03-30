@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import TransacaoSerializer, UserSerializer
-from .models import Transacao, Usuario
+from .serializers import TransacaoSerializer, UserSerializer, ContaSerializer
+from .models import Transacao, Usuario, Conta
 import datetime
 class TransacaoList(generics.ListCreateAPIView):
     queryset = Transacao.objects.all()
@@ -36,4 +36,13 @@ class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Usuario.objects.filter(id=self.kwargs.get('pk'))
+
+
+class ContaList(generics.ListCreateAPIView):
+    queryset = Conta.objects.all()
+    serializer_class = ContaSerializer
+
+class ContaDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Conta.objects.all()
+    serializer_class = ContaSerializer
 

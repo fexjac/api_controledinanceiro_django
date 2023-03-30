@@ -18,7 +18,7 @@ class Usuario(models.Model):
     def __str__(self):
         return self.username
 
-class Contas(models.Model):
+class Conta(models.Model):
     banco = models.CharField(max_length=30)
     numero = models.CharField(max_length=10)
     saldo_banco = models.DecimalField(max_digits=10, decimal_places=2)
