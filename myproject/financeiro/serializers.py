@@ -10,7 +10,7 @@ class TransacaoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transacao
-        fields = ('id', 'data', 'descricao', 'valor', 'tipo', 'usuario', 'recorrente', 'repeticoes')
+        fields = ('id', 'data', 'descricao', 'valor', 'tipo', 'usuario', 'recorrente', 'repeticoes', 'finalizado')
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

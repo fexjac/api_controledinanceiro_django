@@ -10,6 +10,7 @@ class Transacao(models.Model):
     usuario = models.ManyToManyField(User)
     recorrente = models.BooleanField(default=False)
     repeticoes = models.IntegerField(null=True, blank=True)
+    finalizado = models.BooleanField(default=False)
 
 class Usuario(models.Model):
     username = models.CharField(max_length=100)
@@ -29,3 +30,4 @@ class Pagamento(models.Model):
     conta_usada = models.ManyToManyField(Conta)
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     transacao_origem = models.ManyToManyField(Transacao)
+
