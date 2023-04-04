@@ -3,6 +3,9 @@ from rest_framework import generics
 from .serializers import TransacaoSerializer, UserSerializer, ContaSerializer, PagamentoSerializer
 from .models import Transacao, Usuario, Conta, Pagamento
 import datetime
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 class TransacaoList(generics.ListCreateAPIView):
     queryset = Transacao.objects.all()
     serializer_class = TransacaoSerializer
@@ -53,4 +56,25 @@ class PagamentoList(generics.ListCreateAPIView):
 class PagamentoDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Pagamento.objects.all()
     serializer_class = PagamentoSerializer
+
+class TransacaoCreateAPIView(APIView):
+    def post(self, request, format=None):
+        num_transacoes = request.data.get('num_transacoes', None)
+        if not num_transacoes:
+            return Response({'message': 'Por favor, forneça o número de transações.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        transacoes = []
+        for i in range(num_transacoes):
+            transacao = Transacao(
+                descricao=f"Transação {i+1}",
+                valor=100,
+                tipo='entrada',
+                finalizado=False
+            )
+            transacoes.append(transacao)
+
+        Transacao.objects.bulk_create(transacoes)
+
+        serializer = TransacaoSerializer(transacoes, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 

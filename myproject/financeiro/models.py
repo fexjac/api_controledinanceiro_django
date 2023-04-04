@@ -7,7 +7,7 @@ class Transacao(models.Model):
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     tipo = models.CharField(max_length=10, choices=[('entrada', 'Entrada'), ('saida', 'Saída')])
     usuario = models.ManyToManyField(User)
-    num_transacoes = models.IntegerField(null=True, blank=True)
+    num_transacoes = models.IntegerField(null=False, blank=True)
     finalizado = models.BooleanField(default=False)
 
 class Usuario(models.Model):
