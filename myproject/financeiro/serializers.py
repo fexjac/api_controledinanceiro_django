@@ -10,7 +10,9 @@ class TransacaoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transacao
-        fields = ('id', 'data', 'descricao', 'valor', 'tipo', 'usuario', 'recorrente', 'repeticoes', 'finalizado')
+        fields = ('id', 'data', 'descricao',
+                  'valor', 'tipo', 'usuario',
+                  'num_transacoes', 'finalizado')
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,4 +28,5 @@ class ContaSerializer(serializers.ModelSerializer):
 class PagamentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pagamento
-        fields = ('id', 'data_pagamento', 'conta_usada', 'valor', 'transacao_origem')
+        fields = ('id', 'data_pagamento', 'conta_usada',
+                  'valor', 'transacao_origem')
