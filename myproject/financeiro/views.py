@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, status
 from .serializers import TransacaoSerializer, UserSerializer, ContaSerializer, PagamentoSerializer
 from .models import Transacao, Usuario, Conta, Pagamento
 import datetime
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+
 class TransacaoList(generics.ListCreateAPIView):
     queryset = Transacao.objects.all()
     serializer_class = TransacaoSerializer
@@ -58,18 +58,25 @@ class PagamentoDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PagamentoSerializer
 
 class TransacaoCreateAPIView(APIView):
+    serializer_class = TransacaoSerializer
     def post(self, request, format=None):
         num_transacoes = request.data.get('num_transacoes', None)
+        data_req = request.data.get('data', None)
+        descricao_req = request.data.get('descricao', None)
+        valor_req = request.data.get('valor', None)
+        tipo_req = request.data.get('tipo', None)
+        usuario_req = request.data.get('usuario', None)
+
         if not num_transacoes:
             return Response({'message': 'Por favor, forneça o número de transações.'}, status=status.HTTP_400_BAD_REQUEST)
 
         transacoes = []
         for i in range(num_transacoes):
             transacao = Transacao(
-                descricao=f"Transação {i+1}",
-                valor=100,
-                tipo='entrada',
-                finalizado=False
+                data = data_req,
+                descricao= descricao_req,
+                valor=valor_req,
+                tipo=tipo_req
             )
             transacoes.append(transacao)
 
