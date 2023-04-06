@@ -5,6 +5,7 @@ from .models import Transacao, Usuario, Conta, Pagamento
 import datetime
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from dateutil.relativedelta import relativedelta
 
 class TransacaoList(generics.ListCreateAPIView):
     queryset = Transacao.objects.all()
@@ -61,19 +62,27 @@ class TransacaoCreateAPIView(APIView):
     serializer_class = TransacaoSerializer
     def post(self, request, format=None):
         num_transacoes = request.data.get('num_transacoes', None)
+        data_req = request.data.get('data', None)
+        descricao_req = request.data.get('descricao', None)
+        valor_req = request.data.get('valor', None)
+        tipo_req = request.data.get('tipo', None)
+
 
         if not num_transacoes:
             return Response({'message': 'Por favor, forneça o número de transações.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = self.serializer_class(data=request.data)
-
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
         transacoes = []
         for i in range(num_transacoes):
-            transacao = serializer.save()
+            transacao = Transacao(
+                data=data_req,
+                descricao=descricao_req,
+                valor=valor_req,
+                tipo=tipo_req
+            )
             transacoes.append(transacao)
 
-        return Response(self.serializer_class(transacoes, many=True).data, status=status.HTTP_201_CREATED)
+        Transacao.objects.bulk_create(transacoes)
+
+        serializer = TransacaoSerializer(transacoes, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
