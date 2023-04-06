@@ -5,7 +5,7 @@ from .models import Transacao, Usuario, Conta, Pagamento
 import datetime
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .datatrat import trata_data
+from .datatrat import trata_data, incrementa_mes
 
 class TransacaoList(generics.ListCreateAPIView):
     queryset = Transacao.objects.all()
@@ -79,6 +79,7 @@ class TransacaoCreateAPIView(APIView):
                 valor=valor_req,
                 tipo=tipo_req
             )
+            data_req = incrementa_mes(data_req)
             transacoes.append(transacao)
 
         Transacao.objects.bulk_create(transacoes)
