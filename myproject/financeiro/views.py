@@ -5,7 +5,7 @@ from .models import Transacao, Usuario, Conta, Pagamento
 import datetime
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from dateutil.relativedelta import relativedelta
+from .datatrat import trata_data
 
 class TransacaoList(generics.ListCreateAPIView):
     queryset = Transacao.objects.all()
@@ -74,7 +74,7 @@ class TransacaoCreateAPIView(APIView):
         transacoes = []
         for i in range(num_transacoes):
             transacao = Transacao(
-                data=data_req,
+                data=trata_data(data_req),
                 descricao=descricao_req,
                 valor=valor_req,
                 tipo=tipo_req
