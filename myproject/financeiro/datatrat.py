@@ -3,7 +3,7 @@ from dateutil.relativedelta import relativedelta
 def trata_data(data):
     data_obj = datetime.strptime(data, '%Y-%m-%d')
 
-    while verifica_fds() is True
+    while verifica_fds() is True:
         data_obj = decrementa_dia(data_obj)
 
     return data_obj.strftime('%Y-%m-%d')
